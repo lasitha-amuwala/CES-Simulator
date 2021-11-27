@@ -123,7 +123,7 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-image: url(:/resources/LeftButton.svg);
+image: url(:/resources/MinusButton.svg);
 border-radius: 25px;
 }
 
@@ -146,7 +146,7 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-image: url(:/resources/RightButton.svg);
+image: url(:/resources/PlusButton.svg);
 border-radius:25px;
 }
 
@@ -181,6 +181,29 @@ QPushButton:pressed {
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>290</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+image: url(:/resources/LockButton.svg);
+border-radius:25px;
+}
+
+QPushButton:pressed {
+	background-color: #00D100;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>graphicsView_2</zorder>
    <zorder>graphicsView</zorder>
    <zorder>pushButton</zorder>
@@ -189,6 +212,7 @@ QPushButton:pressed {
    <zorder>pushButton_4</zorder>
    <zorder>pushButton_5</zorder>
    <zorder>pushButton_6</zorder>
+   <zorder>pushButton_7</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
