@@ -17,5 +17,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    bool powerState;
+
+private slots:
+    void changePowerState();
+
 };
 #endif // MAINWINDOW_H

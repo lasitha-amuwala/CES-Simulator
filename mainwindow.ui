@@ -28,22 +28,7 @@
 background-color: rgba(255, 255, 255, 0);</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView_2">
-    <property name="geometry">
-     <rect>
-      <x>25</x>
-      <y>32</y>
-      <width>261</width>
-      <height>251</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QGraphicsView:{
-border-radius:20px;
-}</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="powerButton">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -204,9 +189,47 @@ QPushButton:pressed {
      <string/>
     </property>
    </widget>
-   <zorder>graphicsView_2</zorder>
+   <widget class="QGraphicsView" name="graphicsView_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>271</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#000;
+border-radius: 25%</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="CESWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>271</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#fff</string>
+    </property>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>0</y>
+       <width>261</width>
+       <height>201</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <zorder>graphicsView_3</zorder>
+   <zorder>CESWidget</zorder>
    <zorder>graphicsView</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>powerButton</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton_3</zorder>
    <zorder>pushButton_4</zorder>
