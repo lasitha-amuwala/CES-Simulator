@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "menu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,9 +19,13 @@ public:
 private:
     Ui::MainWindow *ui;
     bool powerState;
+    void drawMenu(Menu&);
+    Menu currentMenu;
 
 private slots:
     void changePowerState();
-
+    void navigateDown();
+    void navigateUp();
+    void okButton();
 };
 #endif // MAINWINDOW_H
