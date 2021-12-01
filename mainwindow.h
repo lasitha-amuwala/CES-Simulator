@@ -18,14 +18,27 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    bool powerState;
-    void drawMenu(Menu&);
+
     Menu currentMenu;
+    Menu mainMenu;
+    Menu frequencyMenu;
+    Menu waveformMenu;
+    Menu countdownCycleMenu;
+
+    QString waveform;
+    float frequency;
+    int countdownCycle;
+    bool powerState;
+
+    void drawMenu(Menu&);
+    void disableButtons(bool);
 
 private slots:
     void changePowerState();
     void navigateDown();
     void navigateUp();
     void okButton();
+    void goHome();
+
 };
 #endif // MAINWINDOW_H

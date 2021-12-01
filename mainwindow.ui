@@ -295,6 +295,19 @@ color:#fff;</string>
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="homeButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>470</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>home</string>
+    </property>
+   </widget>
    <zorder>graphicsView_3</zorder>
    <zorder>CESWidget</zorder>
    <zorder>graphicsView</zorder>
@@ -305,6 +318,7 @@ color:#fff;</string>
    <zorder>plusButton</zorder>
    <zorder>okButton</zorder>
    <zorder>lockButtton</zorder>
+   <zorder>homeButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

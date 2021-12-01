@@ -3,6 +3,7 @@
 
 #include "QString"
 #include "QStringList"
+#include <QVector>
 
 class Menu
 {
@@ -18,7 +19,6 @@ private:
     QString name;
     QStringList menuItems;
     int selectedRow;
-
 };
 
 #endif // MENU_H
