@@ -32,6 +32,7 @@ private:
 
     void drawMenu(Menu&);
     void disableButtons(bool);
+    void displayOptions();
 
 private slots:
     void changePowerState();

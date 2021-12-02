@@ -4,7 +4,7 @@
 #include "menu.h"
 
 const QStringList MENUS = {"Main Menu", "Frequencies", "Wave Forms", "Countdown Cycles", "Start Therapy"};
-const QStringList FREQUENCIES = {"0.5hz", "77hz", "100hz"};
+const QStringList FREQUENCIES = {"0.5 Hz", "77 Hz", "100 Hz"};
 const QStringList WAVEFORMS = {"Alpha", "Beta", "Gamma"};
 const QStringList COUNTDOWN_CYCLES = {"20 mins", "40 mins", "60 mins"};
 
@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->homeButton, SIGNAL(pressed()), this, SLOT(goHome()));
     connect(ui->okButton, SIGNAL(pressed()), this, SLOT(okButton()));
 
+    displayOptions();
     disableButtons(true);
 }
 
@@ -82,6 +83,12 @@ void MainWindow::drawMenu(Menu &menu){
     currentMenu = menu;
 }
 
+void MainWindow::displayOptions(){
+    ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
+    ui->waveformLabel->setText(waveform);
+    ui->countdownLabel->setText(QString::number(countdownCycle) + " mins");
+}
+
 void MainWindow::goHome(){
     drawMenu(mainMenu);
 }
@@ -101,18 +108,21 @@ void MainWindow::okButton(){
         if(selectedRow == 0){ frequency = 0.5; }
         else if(selectedRow == 1){ frequency = 77; }
         else { frequency = 100; }
+        displayOptions();
 
     } else if (menu == MENUS[2]){
 
         if(selectedRow == 0){ waveform = WAVEFORMS[0]; }
         else if(selectedRow == 1){ waveform = WAVEFORMS[1]; }
         else { waveform = WAVEFORMS[2]; }
+        displayOptions();
 
     } else if (menu == MENUS[3]){
 
         if(selectedRow == 0){ countdownCycle = 20; }
         else if(selectedRow == 1){ countdownCycle = 40; }
         else { countdownCycle = 60; }
+        displayOptions();
 
     } else {
         qDebug() << "Start Therapy";
