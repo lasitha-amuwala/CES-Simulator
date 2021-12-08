@@ -29,6 +29,7 @@ private:
     float frequency;
     int countdownCycle;
     bool powerState;
+    int powerLevel;
 
     void drawMenu(Menu&);
     void disableButtons(bool);
@@ -40,6 +41,5 @@ private slots:
     void navigateUp();
     void okButton();
     void goHome();
-
 };
 #endif // MAINWINDOW_H

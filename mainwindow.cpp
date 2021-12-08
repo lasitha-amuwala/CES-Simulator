@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "menu.h"
+#include <QLCDNumber>
 
 const QStringList MENUS = {"Main Menu", "Frequencies", "Wave Forms", "Countdown Cycles", "Start Therapy"};
 const QStringList FREQUENCIES = {"0.5 Hz", "77 Hz", "100 Hz"};
@@ -11,11 +12,12 @@ const QStringList COUNTDOWN_CYCLES = {"20 mins", "40 mins", "60 mins"};
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->CESWidget->setVisible(false);
+    ui->displayWidget->setVisible(false);
 
     frequency = 0.5;
     waveform = "Alpha";
     countdownCycle = 20;
+    powerLevel = 100;
     powerState = false;
 
     mainMenu = Menu(MENUS[0], {MENUS[1], MENUS[2], MENUS[3], MENUS[4]});
@@ -28,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->upButton, SIGNAL(pressed()), this, SLOT(navigateUp()));
     connect(ui->homeButton, SIGNAL(pressed()), this, SLOT(goHome()));
     connect(ui->okButton, SIGNAL(pressed()), this, SLOT(okButton()));
+    connect(ui->minusButton, SIGNAL(pressed()), this, SLOT(updatePowerLevel(int)));
+    connect(ui->plusButton, SIGNAL(pressed()), this, SLOT(updatePowerLevel(int)));
 
     displayOptions();
     disableButtons(true);
@@ -39,8 +43,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::changePowerState(){
-    bool isVisible = ui->CESWidget->isVisible();
-    ui->CESWidget->setVisible(!isVisible);
+    bool isVisible = ui->displayWidget->isVisible();
+    ui->displayWidget->setVisible(!isVisible);
     powerState = !powerState;
 
     if(powerState){
@@ -108,27 +112,30 @@ void MainWindow::okButton(){
         if(selectedRow == 0){ frequency = 0.5; }
         else if(selectedRow == 1){ frequency = 77; }
         else { frequency = 100; }
+
         displayOptions();
+
+        qDebug() << "[MainWindow]: Frequency set to " << frequency << "Hz";
+
 
     } else if (menu == MENUS[2]){
 
         if(selectedRow == 0){ waveform = WAVEFORMS[0]; }
         else if(selectedRow == 1){ waveform = WAVEFORMS[1]; }
         else { waveform = WAVEFORMS[2]; }
+
         displayOptions();
+
+        qDebug() << "[MainWindow]: Wave Form set to " << waveform;
 
     } else if (menu == MENUS[3]){
 
         if(selectedRow == 0){ countdownCycle = 20; }
         else if(selectedRow == 1){ countdownCycle = 40; }
         else { countdownCycle = 60; }
+
         displayOptions();
 
-    } else {
-        qDebug() << "Start Therapy";
+        qDebug() << "[MainWindow]: Countdown Cycle set to " << countdownCycle << " mins";
     }
-
-    qDebug() << frequency;
-    qDebug() << waveform;
-    qDebug() << countdownCycle;
 }
