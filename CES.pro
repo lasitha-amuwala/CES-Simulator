@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    menu.cpp
+    menu.cpp \
+    therapy.cpp
 
 HEADERS += \
     mainwindow.h \
-    menu.h
+    menu.h \
+    therapy.h
 
 FORMS += \
     mainwindow.ui

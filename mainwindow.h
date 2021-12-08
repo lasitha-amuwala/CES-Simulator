@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
+#include <QTimer>
 #include "menu.h"
+#include "therapy.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,15 +27,23 @@ private:
     Menu frequencyMenu;
     Menu waveformMenu;
     Menu countdownCycleMenu;
+    Menu therapyMenu;
 
-    QString waveform;
-    float frequency;
-    int countdownCycle;
+    bool saveTherapy;
+    bool skinContact;
     bool powerState;
+    QVector<Therapy*> therapies;
+    QTimer* timer;
+    int timeTraker;
+    float battery;
+    int power;
 
     void drawMenu(Menu&);
     void disableButtons(bool);
     void displayOptions();
+    void updateTimer();
+    void updateBattery(float);
+    void shutdownTherapy();
 
 private slots:
     void changePowerState();
@@ -40,6 +51,10 @@ private slots:
     void navigateUp();
     void okButton();
     void goHome();
+    void increaseCurrent();
+    void decreaseCurrent();
+    void toggleElectrodes();
+    void forceBattery(double);
 
 };
 #endif // MAINWINDOW_H
