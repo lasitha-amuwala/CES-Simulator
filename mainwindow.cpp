@@ -221,6 +221,7 @@ void MainWindow::updateBattery(float change){
     if(battery>100)battery=100;
 
     ui->battery->setValue(battery);
+	ui->setBattery->setValue(battery);
     if(battery<=2){
         changePowerState();
     }else if(battery<=2.2){
