@@ -3,8 +3,6 @@
 
 #include "QString"
 #include "QStringList"
-#include <QVector>
-
 class Menu
 {
 public:

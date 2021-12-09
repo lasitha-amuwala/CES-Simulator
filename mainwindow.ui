@@ -174,7 +174,10 @@ QPushButton:pressed {
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="upButton">
+    <widget class="QProgressBar" name="powerLevelBar">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>130</x>
@@ -183,18 +186,30 @@ QPushButton:pressed {
        <height>50</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-image: url(:/resources/UpButton.svg);
-border-radius: 25px;
-}
-
-QPushButton:pressed {
-	background-color: #00D100
-}</string>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
-     <property name="text">
-      <string/>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>10</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="format">
+      <string>%p%</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="battery">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QGraphicsView" name="graphicsView_3">
@@ -381,25 +396,49 @@ selection-background-color: #72bcd4</string>
 background-color: rgba(255, 255, 255, 0);</string>
      </property>
     </widget>
-    <zorder>graphicsView_3</zorder>
-    <zorder>displayWidget</zorder>
-    <zorder>graphicsView</zorder>
-    <zorder>lockButtton</zorder>
-    <zorder>okButton</zorder>
-    <zorder>downButton</zorder>
-    <zorder>plusButton</zorder>
-    <zorder>powerButton</zorder>
-    <zorder>homeButton</zorder>
-    <zorder>minusButton</zorder>
-    <zorder>upButton</zorder>
+    <widget class="QCheckBox" name="electrodes">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>16</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="batteryWarning">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>10</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
-   <widget class="QGroupBox" name="control">
+   <widget class="QPushButton" name="homeButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>50</y>
-      <width>441</width>
-      <height>531</height>
+      <x>700</x>
+      <y>500</y>
+      <width>80</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -418,6 +457,91 @@ background-color: rgba(255, 255, 255, 0);</string>
      <string>Control</string>
     </property>
    </widget>
+   <widget class="QLabel" name="timerLabel">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>150</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="toggleElectrodes">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>311</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Toggle Electrodes</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>150</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>23</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Set Battery</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="setBattery">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>155</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="value">
+     <double>99.989999999999995</double>
+    </property>
+   </widget>
+   <zorder>graphicsView_3</zorder>
+   <zorder>CESWidget</zorder>
+   <zorder>graphicsView</zorder>
+   <zorder>powerButton</zorder>
+   <zorder>upButton</zorder>
+   <zorder>downButton</zorder>
+   <zorder>minusButton</zorder>
+   <zorder>plusButton</zorder>
+   <zorder>okButton</zorder>
+   <zorder>lockButtton</zorder>
+   <zorder>homeButton</zorder>
+   <zorder>timerLabel</zorder>
+   <zorder>toggleElectrodes</zorder>
+   <zorder>label_2</zorder>
+   <zorder>setBattery</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
