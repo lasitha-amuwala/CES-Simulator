@@ -24,6 +24,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     timer = new QTimer(this);
     power = 1;
 
+    //device being ideal timer
+    this->ideal_timer = new QTimer(this);
+    connect(ideal_timer, SIGNAL(timeout()), this, SLOT(updateIdealCountdown()));
+    ideal_timer->setSingleShot(true);
+
+    //electrodes being ideal timer
+    this->electrodes_timer = new QTimer(this);
+    connect(electrodes_timer, SIGNAL(timeout()), this, SLOT(updateElectrodesIdealCountdown()));
+    electrodes_timer->setSingleShot(true);
+
     QStringList timeMenu;
     QStringList freqMenu;
     foreach (int time, COUNTDOWN_CYCLES) {timeMenu<< QString::number(time) + " mins";}
@@ -64,6 +74,7 @@ void MainWindow::changePowerState(){
         }else{
             drawMenu(mainMenu);
             disableButtons(false);
+            updateIdealCountdown();
         }
     }else{
         disableButtons(true);
@@ -87,6 +98,7 @@ void MainWindow::navigateDown(){
     int nextRow = (currRow + 1 == ui->MainMenu->count())? 0 : currRow + 1;
     ui->MainMenu->setCurrentRow(nextRow);
     currentMenu.setSelectedRow(nextRow);
+    resetIdeal = true;
 }
 
 void MainWindow::navigateUp(){
@@ -94,6 +106,7 @@ void MainWindow::navigateUp(){
     int nextRow = (currRow == 0)? ui->MainMenu->count() - 1 : currRow - 1;
     currentMenu.setSelectedRow(nextRow);
     ui->MainMenu->setCurrentRow(nextRow);
+    resetIdeal = true;
 }
 void MainWindow::increaseCurrent(){
     power += 1;
@@ -101,6 +114,7 @@ void MainWindow::increaseCurrent(){
     therapies[therapies.size()-1]->setPower(power);
     ui->powerLevelBar->setValue(power);
     displayOptions();
+    resetIdeal = true;
 }
 
 void MainWindow::decreaseCurrent(){
@@ -109,12 +123,18 @@ void MainWindow::decreaseCurrent(){
     ui->powerLevelBar->setValue(power);
     therapies[therapies.size()-1]->setPower(power);
     displayOptions();
+    resetIdeal = true;
 }
 
 void MainWindow::toggleElectrodes(){
     skinContact = !skinContact;
     ui->electrodes->setChecked(skinContact);
     ui->toggleElectrodes_2->setStyleSheet(skinContact? "background-color:#FFA626;" : "");
+    if(!skinContact) {
+        updateIdealCountdown();
+        updateElectrodesIdealCountdown();
+    }
+    resetIdeal = true;
 }
 
 void MainWindow::drawMenu(Menu &menu){
@@ -124,6 +144,7 @@ void MainWindow::drawMenu(Menu &menu){
     ui->menuLabel->setText(menu.getName());
     currentMenu = menu;
     displayOptions();
+    resetIdeal = true;
 }
 
 void MainWindow::displayOptions(){
@@ -136,12 +157,13 @@ void MainWindow::displayOptions(){
 
 void MainWindow::goHome(){
     drawMenu(mainMenu);
+    resetIdeal = true;
 }
 
 void MainWindow::okButton(){
     QString menu = currentMenu.getName();
     int selectedRow = currentMenu.getSelectedRow();
-
+    resetIdeal = true;
     if(menu == MENUS[0]){
         if(      selectedRow == 0){ drawMenu(frequencyMenu); }
         else if (selectedRow == 1){ drawMenu(waveformMenu);}
@@ -224,6 +246,7 @@ void MainWindow::updateBattery(float change){
 	ui->setBattery->setValue(battery);
     if(battery<=2){
         changePowerState();
+        qDebug() << "[MainWindow]: Device Shutdown - Low Battery ";
     }else if(battery<=2.2){
         ui->batteryWarning->setText("Shutting down");
     }else if(battery<=5){
@@ -242,8 +265,70 @@ void MainWindow::updateTimer(){
     }
 
     ui->timerLabel->setText(QString::number(timeTraker/60)+":"+QStringLiteral("%1").arg(timeTraker%60,2,10,QLatin1Char('0')));
-    if(skinContact) timeTraker -= 1;
+    if(skinContact)   timeTraker -= 1;
     if(timeTraker<=0){shutdownTherapy();}
 
     updateBattery(-0.007);
+}
+
+// Method to check Ideal Device
+void MainWindow::updateIdealCountdown()
+{
+    if(resetIdeal){
+        ideal_timer->stop();
+        deviceIdealtmp=deviceIdeal;
+        resetIdeal = false;
+    }
+    ideal_timer->start(1000);
+    ui->deviceIdeal->setText(QString::number(deviceIdealtmp/60)+":"+QStringLiteral("%1").arg(deviceIdealtmp%60,2,10,QLatin1Char('0')));
+    if(skinContact) {
+        deviceIdealtmp=deviceIdeal;
+        ideal_timer->stop();
+    } else {
+        deviceIdealtmp -= 1;
+        if(deviceIdealtmp<1){
+            changePowerState();
+            deviceIdealtmp=deviceIdeal;
+            ideal_timer->stop();
+            qDebug() << "[MainWindow]: Device Shutdown - Ideal Device ";
+        }if(deviceIdealtmp<=3){
+            ui->batteryWarning->setText("Shutting down");
+        }else if(deviceIdealtmp<=5){
+            ui->batteryWarning->setText("Device Ideal");
+        }else{
+            ui->batteryWarning->setText("");
+        }
+    }
+
+}
+
+// Method to check Ideal Electrodes
+void MainWindow::updateElectrodesIdealCountdown()
+{
+   //;
+    if(resetElectrodes){
+        electrodes_timer->stop();
+        electrodesIdeal=5;
+        resetElectrodes = false;
+    }
+    electrodes_timer->start(1000);
+    ui->electrodesIdeal->setText(QString::number(electrodesIdeal/60)+":"+QStringLiteral("%1").arg(electrodesIdeal%60,2,10,QLatin1Char('0')));
+    if(skinContact) {
+        electrodesIdeal=5;
+        electrodes_timer->stop();
+    } else {
+        electrodesIdeal -= 1;
+        if(electrodesIdeal<1){
+            shutdownTherapy();
+            electrodesIdeal=5;
+            electrodes_timer->stop();
+            qDebug() << "[MainWindow]: Therapy Shutdown - Ideal Electrodes ";
+        }if(electrodesIdeal<=3){
+            ui->batteryWarning->setText("Shutting down - Therapy");
+        }else if(electrodesIdeal<=5){
+            ui->batteryWarning->setText("Electrodes Ideal");
+        }else{
+            ui->batteryWarning->setText("");
+        }
+    }
 }
