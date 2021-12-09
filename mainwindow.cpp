@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->plusButton, SIGNAL(pressed()), this, SLOT(increaseCurrent()));
     connect(ui->minusButton, SIGNAL(pressed()), this, SLOT(decreaseCurrent()));
     connect(ui->toggleElectrodes, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
+    connect(ui->toggleElectrodes_2, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
     connect(ui->setBattery, SIGNAL(valueChanged(double)), this, SLOT(forceBattery(double)));
     connect(timer, &QTimer::timeout, this, &MainWindow::updateTimer);
 

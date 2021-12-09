@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>667</height>
+    <width>650</width>
+    <height>645</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -240,7 +240,7 @@ color:#fff;</string>
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QProgressBar" name="progressBar_2">
+     <widget class="QProgressBar" name="powerLevelBar">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -443,59 +443,85 @@ QPushButton:pressed {
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="toggleElectrodes">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>10</y>
+      <x>330</x>
+      <y>20</y>
       <width>311</width>
-      <height>131</height>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Control</string>
+    </property>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Device Battery: </string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="setBattery">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>30</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="suffix">
+      <string> %</string>
+     </property>
+     <property name="maximum">
+      <double>100.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>100.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="toggleElectrodes">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Toggle Electrodes</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="toggleElectrodes_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>550</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Toggle Electrodes</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>150</y>
-      <width>171</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>23</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Set Battery</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="setBattery">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>155</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-     </font>
-    </property>
-    <property name="suffix">
-     <string> %</string>
-    </property>
-    <property name="maximum">
-     <double>100.000000000000000</double>
-    </property>
-    <property name="value">
-     <double>100.000000000000000</double>
+     <string>contact</string>
     </property>
    </widget>
   </widget>
@@ -504,7 +530,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>650</width>
      <height>22</height>
     </rect>
    </property>
