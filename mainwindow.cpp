@@ -193,6 +193,7 @@ void MainWindow::shutdownTherapy(){
     ui->timerLabel->setText("");
     timer->stop();
     if(saveTherapy){
+        saveTherapy = false;
         therapies.append(new Therapy());
     }
 }
