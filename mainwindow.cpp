@@ -280,7 +280,7 @@ void MainWindow::updateIdealCountdown()
         resetIdeal = false;
     }
     ideal_timer->start(1000);
-    ui->deviceIdeal->setText(QString::number(deviceIdealtmp/60)+":"+QStringLiteral("%1").arg(deviceIdealtmp%60,2,10,QLatin1Char('0')));
+    //ui->deviceIdeal->setText(QString::number(deviceIdealtmp/60)+":"+QStringLiteral("%1").arg(deviceIdealtmp%60,2,10,QLatin1Char('0')));
     if(skinContact) {
         deviceIdealtmp=deviceIdeal;
         ideal_timer->stop();
@@ -312,7 +312,7 @@ void MainWindow::updateElectrodesIdealCountdown()
         resetElectrodes = false;
     }
     electrodes_timer->start(1000);
-    ui->electrodesIdeal->setText(QString::number(electrodesIdeal/60)+":"+QStringLiteral("%1").arg(electrodesIdeal%60,2,10,QLatin1Char('0')));
+    //ui->electrodesIdeal->setText(QString::number(electrodesIdeal/60)+":"+QStringLiteral("%1").arg(electrodesIdeal%60,2,10,QLatin1Char('0')));
     if(skinContact) {
         electrodesIdeal=5;
         electrodes_timer->stop();
