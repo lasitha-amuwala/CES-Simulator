@@ -546,6 +546,32 @@ QPushButton:pressed {
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="deviceIdeal">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>570</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="electrodesIdeal">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>570</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -553,7 +579,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
