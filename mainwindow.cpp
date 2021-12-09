@@ -4,7 +4,7 @@
 #include "menu.h"
 #include <QLCDNumber>
 
-const QStringList MENUS = {"Main Menu", "Frequencies", "Wave Forms", "Countdown Cycles", "Start Therapy","history"};
+const QStringList MENUS = {"Main Menu", "Frequencies", "Wave Forms", "Countdown Cycles", "Start Therapy", "History"};
 const QList<float> FREQUENCIES = {0.5, 77, 100};
 const QStringList WAVEFORMS = {"Alpha", "Beta", "Gamma"};
 const QList<int>  COUNTDOWN_CYCLES = {20, 40, 60};
@@ -114,6 +114,7 @@ void MainWindow::decreaseCurrent(){
 void MainWindow::toggleElectrodes(){
     skinContact = !skinContact;
     ui->electrodes->setChecked(skinContact);
+    ui->toggleElectrodes_2->setStyleSheet(skinContact? "background-color:#FFA626;" : "");
 }
 
 void MainWindow::drawMenu(Menu &menu){

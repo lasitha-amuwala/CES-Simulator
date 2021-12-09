@@ -20,7 +20,7 @@
       <x>10</x>
       <y>20</y>
       <width>311</width>
-      <height>521</height>
+      <height>591</height>
      </rect>
     </property>
     <widget class="QPushButton" name="lockButtton">
@@ -143,12 +143,22 @@ QPushButton:pressed {
       <rect>
        <x>30</x>
        <y>450</y>
-       <width>80</width>
-       <height>25</height>
+       <width>50</width>
+       <height>50</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+image: url(:/resources/HomeButton.svg);
+border-radius: 25px;
+}
+
+QPushButton:pressed {
+	background-color: #00D100;
+}</string>
+     </property>
      <property name="text">
-      <string>home</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="minusButton">
@@ -379,11 +389,11 @@ selection-background-color: #72bcd4</string>
        <x>10</x>
        <y>0</y>
        <width>291</width>
-       <height>511</height>
+       <height>571</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/resources/Overlay.svg);
+      <string notr="true">border-image: url(:/resources/overlayProbes.svg);
 background-color: rgba(255, 255, 255, 0);</string>
      </property>
     </widget>
@@ -410,6 +420,30 @@ QPushButton:pressed {
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="toggleElectrodes_2">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>550</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton:checked{
+	background-color: #FFA626;
+}</string>
+     </property>
+     <property name="text">
+      <string>contact</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
     <zorder>graphicsView_3</zorder>
     <zorder>displayWidget</zorder>
     <zorder>graphicsView</zorder>
@@ -421,6 +455,7 @@ QPushButton:pressed {
     <zorder>homeButton</zorder>
     <zorder>minusButton</zorder>
     <zorder>upButton</zorder>
+    <zorder>toggleElectrodes_2</zorder>
    </widget>
    <widget class="QLabel" name="timerLabel">
     <property name="geometry">
@@ -510,19 +545,6 @@ QPushButton:pressed {
       <string>Toggle Electrodes</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="toggleElectrodes_2">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>550</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>contact</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
