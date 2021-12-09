@@ -68,7 +68,7 @@ void MainWindow::changePowerState(){
         disableButtons(true);
         shutdownTherapy();
     }
-    ui->CESWidget->setVisible(powerState);
+    ui->displayWidget->setVisible(powerState);
 }
 
 void MainWindow::disableButtons(bool x){
@@ -169,19 +169,19 @@ void MainWindow::okButton(){
          therapies[therapies.size()-1]->setFrequency(FREQUENCIES[selectedRow]);
          drawMenu(mainMenu);
 
-        qDebug() << "[MainWindow]: Frequency set to " << frequency << "Hz";
+        qDebug() << "[MainWindow]: Frequency set to " << FREQUENCIES[selectedRow] << "Hz";
 
     } else if (menu == MENUS[2]){
         therapies[therapies.size()-1]->setWaveform(WAVEFORMS[selectedRow]);
         drawMenu(mainMenu);
 
-        qDebug() << "[MainWindow]: Wave Form set to " << waveform;
+        qDebug() << "[MainWindow]: Wave Form set to " << WAVEFORMS[selectedRow];
 
     } else if (menu == MENUS[3]){
         therapies[therapies.size()-1]->setTime(COUNTDOWN_CYCLES[selectedRow]);
         drawMenu(mainMenu);
       
-        qDebug() << "[MainWindow]: Countdown Cycle set to " << countdownCycle << " mins";
+        qDebug() << "[MainWindow]: Countdown Cycle set to " << COUNTDOWN_CYCLES[selectedRow] << " mins";
       
     } else if (menu == MENUS[4]){
         if(selectedRow==0){
