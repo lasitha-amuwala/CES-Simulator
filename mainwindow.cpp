@@ -119,6 +119,7 @@ void MainWindow::drawMenu(Menu &menu){
     ui->MainMenu->setCurrentRow(menu.getSelectedRow());
     ui->menuLabel->setText(menu.getName());
     currentMenu = menu;
+    displayOptions();
 }
 
 void MainWindow::displayOptions(){
