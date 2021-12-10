@@ -10,6 +10,7 @@ const QStringList WAVEFORMS = {"Alpha", "Beta", "Gamma"};
 const QList<int>  COUNTDOWN_CYCLES = {20, 40, 60};
 const QStringList THERAPY_BUTTONS = {"Stop Therapy", "Save Therapy"};
 
+//Main UI Window
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -66,11 +67,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     disableButtons(true);
 }
 
+//Main UI Window - Delete UI
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+//Method to change the Power ON/OFF
 void MainWindow::changePowerState(){
     powerState = !powerState;
     if(powerState){
@@ -88,6 +91,7 @@ void MainWindow::changePowerState(){
     ui->displayWidget->setVisible(powerState);
 }
 
+//Method to disable and enable all the buttons on the device - use mainly when Power ON/OFF
 void MainWindow::disableButtons(bool x){
     ui->upButton->setDisabled(x);
     ui->downButton->setDisabled(x);
@@ -98,6 +102,7 @@ void MainWindow::disableButtons(bool x){
     ui->lockButtton->setDisabled(x);
 }
 
+//Method to navigate down the menu
 void MainWindow::navigateDown(){
     int currRow = ui->MainMenu->currentRow();
     int nextRow = (currRow + 1 == ui->MainMenu->count())? 0 : currRow + 1;
@@ -106,6 +111,7 @@ void MainWindow::navigateDown(){
     resetIdle = true;
 }
 
+//Method to navigate up the menu
 void MainWindow::navigateUp(){
     int currRow = ui->MainMenu->currentRow();
     int nextRow = (currRow == 0)? ui->MainMenu->count() - 1 : currRow - 1;
@@ -113,6 +119,8 @@ void MainWindow::navigateUp(){
     ui->MainMenu->setCurrentRow(nextRow);
     resetIdle = true;
 }
+
+//Method to increase the current
 void MainWindow::increaseCurrent(){
    if(power == 10) return;
 
@@ -127,6 +135,7 @@ void MainWindow::increaseCurrent(){
     resetIdle = true;
 }
 
+//Method to decrease the current
 void MainWindow::decreaseCurrent(){
     power = (power <= 2)? 1 : power - 2;
 
@@ -140,6 +149,7 @@ void MainWindow::decreaseCurrent(){
     resetIdle = true;
 }
 
+//Method to toggle ON/OFF the Electrodes
 void MainWindow::toggleElectrodes(){
     skinContact = !skinContact;
     ui->electrodes->setChecked(skinContact);
@@ -151,6 +161,7 @@ void MainWindow::toggleElectrodes(){
     resetIdle = true;
 }
 
+//Method to draw the main layout of the Device
 void MainWindow::drawMenu(Menu &menu){
     ui->MainMenu->clear();
     ui->MainMenu->addItems(menu.getMenuItems());
@@ -161,6 +172,7 @@ void MainWindow::drawMenu(Menu &menu){
     resetIdle = true;
 }
 
+//Method to display all the options
 void MainWindow::displayOptions(){
     ui->battery->setValue(battery);
     ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
@@ -168,11 +180,13 @@ void MainWindow::displayOptions(){
     ui->countdownLabel->setText(QString::number(countdown) + " mins");
 }
 
+//Method to reset and display the main menu
 void MainWindow::goHome(){
     drawMenu(mainMenu);
     resetIdle = true;
 }
 
+//Method to reset and display the main menu
 void MainWindow::okButton(){
     QString menu = currentMenu.getName();
     int selectedRow = currentMenu.getSelectedRow();
@@ -245,6 +259,8 @@ void MainWindow::okButton(){
         }
     }
 }
+
+//Method to shutdown the Therapy when skin contact is lost
 void MainWindow::shutdownTherapy(){
     ui->timerLabel->setText("");
     timer->stop();
@@ -254,11 +270,12 @@ void MainWindow::shutdownTherapy(){
     }
 }
 
-
+//Method to track the Battery Level base on the power of the therapy
 void MainWindow::forceBattery(double target){
     updateBattery(target-battery);
 }
 
+//Method to track the Current Level
 void MainWindow::forceCurrent(int target){
     if(target <= 500){
         ui->powerLevelBar->setValue(target);
@@ -271,6 +288,7 @@ void MainWindow::forceCurrent(int target){
     }
 }
 
+//Method to update battery level when  a therapy starts
 void MainWindow::updateBattery(float change){
     battery += change;
     if(battery<0)battery=0;
@@ -290,7 +308,7 @@ void MainWindow::updateBattery(float change){
     }
 }
 
-
+//Method to update the timer when a therapy starts
 void MainWindow::updateTimer(){
     if(therapies[therapies.size()-1]->getPower()>14){
         changePowerState();
@@ -305,7 +323,7 @@ void MainWindow::updateTimer(){
     updateBattery(-0.007);
 }
 
-// Method to check Idle Device
+//Method to track the countdown of device being idle
 void MainWindow::updateIdleCountdown()
 {
     if(resetIdle){
@@ -336,7 +354,7 @@ void MainWindow::updateIdleCountdown()
 
 }
 
-// Method to check Idle Electrodes
+ //Method to track the countdown of electrodes being idle
 void MainWindow::updateElectrodesIdleCountdown()
 {
    //;
