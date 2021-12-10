@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>CES Simulator</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="ces.qrc">
+    <normaloff>:/resources/Alpha-Stim-AID-Square.png</normaloff>:/resources/Alpha-Stim-AID-Square.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="CESWidget" native="true">
@@ -585,6 +589,8 @@ QPushButton:pressed {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="ces.qrc"/>
+ </resources>
  <connections/>
 </ui>
