@@ -32,20 +32,20 @@ private:
     bool saveTherapy;
     bool skinContact;
     bool powerState;
-    bool resetIdeal=false;
+    bool resetIdle=false;
     bool resetElectrodes=false;
     QVector<Therapy*> therapies;
     QTimer* timer;
-    QTimer* ideal_timer;  // Checking for device being ideal
-    QTimer* electrodes_timer;  // Checking for electrodes being ideal
+    QTimer* idle_timer;  // Checking for device being Idle
+    QTimer* electrodes_timer;  // Checking for electrodes being Idle
 
     int timeTraker;
     float battery;
     int power;
-    int deviceIdeal=1800;  // Checking for device being ideal - 30 minutes
-    int electrodesIdeal=5;  // Checking for electrodes being ideal - 5 seconds
-    int deviceIdealtmp;  // Temporary - Checking for device being ideal - 30 minutes
-    int electrodesIdealtmp;  // Temporary - Checking for electrodes being ideal - 5 seconds
+    int deviceIdle=1800;  // Checking for device being Idle - 30 minutes
+    int electrodesIdle=5;  // Checking for electrodes being Idle - 5 seconds
+    int deviceIdletmp;  // Temporary - Checking for device being Idle - 30 minutes
+    int electrodesIdletmp;  // Temporary - Checking for electrodes being Idle - 5 seconds
 
     void drawMenu(Menu&);
     void disableButtons(bool);
@@ -64,7 +64,7 @@ private slots:
     void decreaseCurrent();
     void toggleElectrodes();
     void forceBattery(double);
-    void updateIdealCountdown();
-    void updateElectrodesIdealCountdown();
+    void updateIdleCountdown();
+    void updateElectrodesIdleCountdown();
 };
 #endif // MAINWINDOW_H
