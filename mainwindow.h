@@ -39,6 +39,10 @@ private:
     QTimer* idle_timer;  // Checking for device being Idle
     QTimer* electrodes_timer;  // Checking for electrodes being Idle
 
+    float frequency;
+    QString waveform;
+    int countdown;
+
     int timeTraker;
     float battery;
     int power;
@@ -64,6 +68,7 @@ private slots:
     void decreaseCurrent();
     void toggleElectrodes();
     void forceBattery(double);
+    void forceCurrent(int);
     void updateIdleCountdown();
     void updateElectrodesIdleCountdown();
 };

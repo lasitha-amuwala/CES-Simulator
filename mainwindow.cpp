@@ -15,11 +15,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
     ui->displayWidget->setVisible(false);
 
-
     therapies.append(new Therapy());
     powerState = false;
     skinContact = false;
     saveTherapy = false;
+
+    frequency = FREQUENCIES[0];
+    waveform = WAVEFORMS[0];
+    countdown = COUNTDOWN_CYCLES[0];
+
     battery = 100;
     timer = new QTimer(this);
     power = 1;
@@ -55,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->toggleElectrodes, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
     connect(ui->toggleElectrodes_2, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
     connect(ui->setBattery, SIGNAL(valueChanged(double)), this, SLOT(forceBattery(double)));
+    connect(ui->setCurrent, SIGNAL(valueChanged(int)), this, SLOT(forceCurrent(int)));
     connect(timer, &QTimer::timeout, this, &MainWindow::updateTimer);
 
     displayOptions();
@@ -109,19 +114,28 @@ void MainWindow::navigateUp(){
     resetIdle = true;
 }
 void MainWindow::increaseCurrent(){
+   if(power == 10) return;
+
     power += 1;
-    if(power>10) power = 10;
+    int current = power * 50;
+
     therapies[therapies.size()-1]->setPower(power);
-    ui->powerLevelBar->setValue(power);
+    ui->powerLevelBar->setValue(current);
+    ui->setCurrent->setValue(current);
+
     displayOptions();
     resetIdle = true;
 }
 
 void MainWindow::decreaseCurrent(){
-    power -= 2;
-    if(power<1) power = 1;
-    ui->powerLevelBar->setValue(power);
+    power = (power <= 2)? 1 : power - 2;
+
+    int current = power * 50;
+
     therapies[therapies.size()-1]->setPower(power);
+    ui->powerLevelBar->setValue(current);
+    ui->setCurrent->setValue(current);
+
     displayOptions();
     resetIdle = true;
 }
@@ -149,10 +163,9 @@ void MainWindow::drawMenu(Menu &menu){
 
 void MainWindow::displayOptions(){
     ui->battery->setValue(battery);
-    ui->powerLevelBar->setValue(power);
-    ui->frequencyLabel->setText(QString::number(therapies[therapies.size()-1]->getFrequency()) + " Hz");
-    ui->waveformLabel->setText(therapies[therapies.size()-1]->getWaveform());
-    ui->countdownLabel->setText(QString::number(therapies[therapies.size()-1]->getTime()) + " mins");
+    ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
+    ui->waveformLabel->setText(waveform);
+    ui->countdownLabel->setText(QString::number(countdown) + " mins");
 }
 
 void MainWindow::goHome(){
@@ -175,36 +188,45 @@ void MainWindow::okButton(){
             therapies[therapies.size()-1]->setStart(QDateTime::currentDateTime());
         }  else if (selectedRow == 4){
             QStringList oldTherapy = {"Go Back"};
-            foreach (Therapy* therapy,therapies){
-                qDebug()<<therapy->getFrequency();
-                qDebug()<<therapy->getWaveform();
-                qDebug()<<therapy->getStart().date().toString();
-                qDebug()<<therapy->getPower();
-                qDebug()<<therapy->getTime();
-                qDebug()<<"\n";
-                oldTherapy<< therapy->getStart().date().toString() + "\n  " + QString::number(therapy->getPower()) + " power\n  " + QString::number(therapy->getTime()) + " mins";
+            foreach (Therapy* therapy,therapies) {
+                qDebug() << therapy->getFrequency();
+                qDebug() << therapy->getWaveform();
+                qDebug() << therapy->getStart().date().toString();
+                qDebug() << therapy->getPower();
+                qDebug() << therapy->getTime();
+                qDebug() << "\n";
+
+                oldTherapy << therapy->getStart().date().toString() +
+                              "\n - Waveform: " + therapy->getWaveform() +
+                              "\n - Countdown: " + QString::number(therapy->getTime()) + " mins" +
+                              "\n - Frequency: " + QString::number(therapy->getFrequency()) + " Hz" +
+                              "\n - Current: " + QString::number(therapy->getPower() * 50) + " uA ";
             }
             oldTherapy.takeLast();
-            Menu history = Menu(MENUS[5],oldTherapy);
+            Menu history = Menu(MENUS[5], oldTherapy);
             drawMenu(history);
         }
 
     } else if (menu == MENUS[1]){
-         therapies[therapies.size()-1]->setFrequency(FREQUENCIES[selectedRow]);
+         frequency = FREQUENCIES[selectedRow];
+         qDebug() << "HUH" +QString::number(frequency);
+         therapies[therapies.size()-1]->setFrequency(frequency);
          drawMenu(mainMenu);
 
         qDebug() << "[MainWindow]: Frequency set to " << FREQUENCIES[selectedRow] << "Hz";
 
     } else if (menu == MENUS[2]){
-        therapies[therapies.size()-1]->setWaveform(WAVEFORMS[selectedRow]);
+        waveform = WAVEFORMS[selectedRow];
+        therapies[therapies.size()-1]->setWaveform(waveform);
         drawMenu(mainMenu);
 
         qDebug() << "[MainWindow]: Wave Form set to " << WAVEFORMS[selectedRow];
 
     } else if (menu == MENUS[3]){
-        therapies[therapies.size()-1]->setTime(COUNTDOWN_CYCLES[selectedRow]);
+        countdown = COUNTDOWN_CYCLES[selectedRow];
+        therapies[therapies.size()-1]->setTime(countdown);
         drawMenu(mainMenu);
-      
+
         qDebug() << "[MainWindow]: Countdown Cycle set to " << COUNTDOWN_CYCLES[selectedRow] << " mins";
       
     } else if (menu == MENUS[4]){
@@ -228,13 +250,25 @@ void MainWindow::shutdownTherapy(){
     timer->stop();
     if(saveTherapy){
         saveTherapy = false;
-        therapies.append(new Therapy());
+        therapies.append(new Therapy(waveform, frequency, countdown, power));
     }
 }
 
 
 void MainWindow::forceBattery(double target){
     updateBattery(target-battery);
+}
+
+void MainWindow::forceCurrent(int target){
+    if(target <= 500){
+        ui->powerLevelBar->setValue(target);
+        power = target/50;
+
+    }else if(target > 700){
+        changePowerState();
+        ui->powerButton->setDisabled(true);
+        qDebug() << "[MainWindow]: Device Disabled - CURRENT LIMIT EXCEEDED";
+    }
 }
 
 void MainWindow::updateBattery(float change){

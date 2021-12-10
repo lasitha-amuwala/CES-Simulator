@@ -263,8 +263,20 @@ color:#fff;</string>
         <height>21</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>500</number>
+      </property>
       <property name="value">
-       <number>24</number>
+       <number>50</number>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="format">
+       <string>%v uA</string>
       </property>
      </widget>
      <widget class="QLabel" name="frequencyLabel">
@@ -318,7 +330,7 @@ color:#fff;</string>
         <x>0</x>
         <y>60</y>
         <width>271</width>
-        <height>121</height>
+        <height>146</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="mainDisplay">
@@ -334,7 +346,7 @@ color:#fff;</string>
           <bool>true</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">font-size: 16px;
+          <string notr="true">font-size: 14px;
 selection-background-color: #72bcd4</string>
          </property>
         </widget>
@@ -357,10 +369,10 @@ selection-background-color: #72bcd4</string>
      <widget class="QLabel" name="batteryWarning">
       <property name="geometry">
        <rect>
-        <x>65</x>
+        <x>45</x>
         <y>10</y>
-        <width>111</width>
-        <height>16</height>
+        <width>141</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="text">
@@ -386,20 +398,6 @@ selection-background-color: #72bcd4</string>
        <bool>false</bool>
       </property>
      </widget>
-    </widget>
-    <widget class="QGraphicsView" name="graphicsView">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>291</width>
-       <height>571</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-image: url(:/resources/overlayProbes.svg);
-background-color: rgba(255, 255, 255, 0);</string>
-     </property>
     </widget>
     <widget class="QPushButton" name="upButton">
      <property name="geometry">
@@ -429,7 +427,7 @@ QPushButton:pressed {
       <rect>
        <x>110</x>
        <y>550</y>
-       <width>81</width>
+       <width>91</width>
        <height>31</height>
       </rect>
      </property>
@@ -446,6 +444,20 @@ QPushButton:pressed {
      </property>
      <property name="checked">
       <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QGraphicsView" name="graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>291</width>
+       <height>571</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-image: url(:/resources/overlayProbes.svg);
+background-color: rgba(255, 255, 255, 0);</string>
      </property>
     </widget>
     <zorder>graphicsView_3</zorder>
@@ -488,7 +500,7 @@ QPushButton:pressed {
       <x>330</x>
       <y>20</y>
       <width>311</width>
-      <height>521</height>
+      <height>581</height>
      </rect>
     </property>
     <property name="title">
@@ -540,13 +552,61 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
+       <y>120</y>
        <width>271</width>
        <height>41</height>
       </rect>
      </property>
      <property name="text">
       <string>Toggle Electrodes</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>Current: </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="setCurrent">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>70</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="suffix">
+      <string> uA</string>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+     <property name="singleStep">
+      <number>50</number>
      </property>
     </widget>
    </widget>
@@ -583,9 +643,15 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuCES_Simulator">
+    <property name="title">
+     <string>CES Simulator</string>
+    </property>
+   </widget>
+   <addaction name="menuCES_Simulator"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
