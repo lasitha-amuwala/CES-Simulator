@@ -546,7 +546,7 @@ QPushButton:pressed {
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="deviceIdeal">
+   <widget class="QLabel" name="deviceIdle">
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -559,7 +559,7 @@ QPushButton:pressed {
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="electrodesIdeal">
+   <widget class="QLabel" name="electrodesIdle">
     <property name="geometry">
      <rect>
       <x>450</x>
