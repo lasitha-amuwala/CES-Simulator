@@ -188,24 +188,6 @@ QPushButton:pressed {
       <string/>
      </property>
     </widget>
-    <widget class="QGraphicsView" name="graphicsView_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>271</width>
-       <height>241</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:#000;
-border-radius: 25%;
-</string>
-     </property>
-     <property name="interactive">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QWidget" name="displayWidget" native="true">
      <property name="geometry">
       <rect>
@@ -330,7 +312,7 @@ color:#fff;</string>
         <x>0</x>
         <y>60</y>
         <width>271</width>
-        <height>146</height>
+        <height>121</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="mainDisplay">
@@ -460,7 +442,31 @@ QPushButton:pressed {
 background-color: rgba(255, 255, 255, 0);</string>
      </property>
     </widget>
-    <zorder>graphicsView_3</zorder>
+    <widget class="QLabel" name="blackScreen">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>271</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#000;
+border-radius: 25%;
+color:#fff</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <zorder>blackScreen</zorder>
     <zorder>displayWidget</zorder>
     <zorder>graphicsView</zorder>
     <zorder>lockButtton</zorder>
@@ -544,6 +550,9 @@ background-color: rgba(255, 255, 255, 0);</string>
      <property name="maximum">
       <double>100.000000000000000</double>
      </property>
+     <property name="singleStep">
+      <double>0.500000000000000</double>
+     </property>
      <property name="value">
       <double>100.000000000000000</double>
      </property>
@@ -606,6 +615,9 @@ background-color: rgba(255, 255, 255, 0);</string>
       <number>1000</number>
      </property>
      <property name="singleStep">
+      <number>50</number>
+     </property>
+     <property name="value">
       <number>50</number>
      </property>
     </widget>
