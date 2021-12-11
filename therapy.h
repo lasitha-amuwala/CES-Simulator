@@ -10,7 +10,7 @@
 class Therapy
 {
 public:
-    Therapy(QString="Alpha", float=0.5, int=20,int=1,QDateTime = QDateTime::currentDateTime());
+    Therapy(QString="Alpha", float=0.5, int=20, int=1, QDateTime = QDateTime::currentDateTime());
     ~Therapy();
 
     QString getWaveform();

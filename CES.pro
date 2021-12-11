@@ -19,12 +19,12 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
-    therapy.cpp
+    therapy.cpp \
 
 HEADERS += \
     mainwindow.h \
     menu.h \
-    therapy.h
+    therapy.h \
 
 FORMS += \
     mainwindow.ui
