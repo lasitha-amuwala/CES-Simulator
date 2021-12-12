@@ -600,9 +600,9 @@ color:#fff</string>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>210</y>
-       <width>221</width>
+       <x>20</x>
+       <y>250</y>
+       <width>191</width>
        <height>17</height>
       </rect>
      </property>
@@ -612,14 +612,14 @@ color:#fff</string>
       </font>
      </property>
      <property name="text">
-      <string>Device Idle Auto Shutdown In:</string>
+      <string>Device Auto Shutdown In:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>180</y>
+       <x>20</x>
+       <y>220</y>
        <width>161</width>
        <height>17</height>
       </rect>
@@ -636,8 +636,8 @@ color:#fff</string>
     <widget class="QLabel" name="electrodesIdle">
      <property name="geometry">
       <rect>
-       <x>180</x>
-       <y>180</y>
+       <x>190</x>
+       <y>220</y>
        <width>71</width>
        <height>21</height>
       </rect>
@@ -657,8 +657,8 @@ color:#fff</string>
     <widget class="QLabel" name="deviceIdle">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>210</y>
+       <x>210</x>
+       <y>250</y>
        <width>71</width>
        <height>21</height>
       </rect>
