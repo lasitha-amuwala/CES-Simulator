@@ -16,10 +16,11 @@ public:
     QString getWaveform();
     float getFrequency();
     QDateTime getStart();
-    int getPower();
+    int getCurrent();
     int getTime();
+
     void setTime(int);
-    void setPower(int);
+    void setCurrent(int);
     void setStart(QDateTime);
     void setFrequency(float);
     void setWaveform(QString);
@@ -28,7 +29,7 @@ private:
     QString waveform;
     float frequency;
     int countdownCycle;
-    int power;
+    int current;
     QDateTime startTime;
 };
 

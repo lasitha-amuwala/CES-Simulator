@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     battery = 100;
     timer = new QTimer(this);
-    power = 1;
+    current = 1;
 
     //device being idle timer
     this->idle_timer = new QTimer(this);
@@ -112,28 +112,29 @@ void MainWindow::navigateUp(){
     ui->MainMenu->setCurrentRow(nextRow);
     resetIdle = true;
 }
+
 void MainWindow::increaseCurrent(){
-   if(power == 10) return;
+   if(current == 10) return;
 
-    power += 1;
-    int current = power * 50;
+    current += 1;
+    int microampere = current * 50;
 
-    therapies[therapies.size()-1]->setPower(power);
-    ui->powerLevelBar->setValue(current);
-    ui->setCurrent->setValue(current);
+    therapies[therapies.size()-1]->setCurrent(current);
+    ui->powerLevelBar->setValue(microampere);
+    ui->setCurrent->setValue(microampere);
 
     displayOptions();
     resetIdle = true;
 }
 
 void MainWindow::decreaseCurrent(){
-    power = (power <= 2)? 1 : power - 2;
+    current = (current <= 2)? 1 : current - 2;
 
-    int current = power * 50;
+    int microampere = current * 50;
 
-    therapies[therapies.size()-1]->setPower(power);
-    ui->powerLevelBar->setValue(current);
-    ui->setCurrent->setValue(current);
+    therapies[therapies.size()-1]->setCurrent(current);
+    ui->powerLevelBar->setValue(microampere);
+    ui->setCurrent->setValue(microampere);
 
     displayOptions();
     resetIdle = true;
@@ -192,7 +193,7 @@ void MainWindow::okButton(){
                 qDebug() << therapy->getFrequency();
                 qDebug() << therapy->getWaveform();
                 qDebug() << therapy->getStart().date().toString();
-                qDebug() << therapy->getPower();
+                qDebug() << therapy->getCurrent();
                 qDebug() << therapy->getTime();
                 qDebug() << "\n";
 
@@ -200,7 +201,7 @@ void MainWindow::okButton(){
                               "\n - Waveform: " + therapy->getWaveform() +
                               "\n - Countdown: " + QString::number(therapy->getTime()) + " mins" +
                               "\n - Frequency: " + QString::number(therapy->getFrequency()) + " Hz" +
-                              "\n - Current: " + QString::number(therapy->getPower() * 50) + " uA ";
+                              "\n - Current: " + QString::number(therapy->getCurrent() * 50) + " uA ";
             }
             oldTherapy.takeLast();
             Menu history = Menu(MENUS[5], oldTherapy);
@@ -251,7 +252,7 @@ void MainWindow::shutdownTherapy(){
     timer->stop();
     if(saveTherapy){
         saveTherapy = false;
-        therapies.append(new Therapy(waveform, frequency, countdown, power));
+        therapies.append(new Therapy(waveform, frequency, countdown, current));
     }
 }
 
@@ -263,7 +264,7 @@ void MainWindow::forceBattery(double target){
 void MainWindow::forceCurrent(int target){
     if(target <= 500){
         ui->powerLevelBar->setValue(target);
-        power = target/50;
+        current = target/50;
 
     }else if(target > 700){
         changePowerState();
@@ -281,9 +282,10 @@ void MainWindow::updateBattery(float change){
 	ui->setBattery->setValue(battery);
 
     if(battery < 1){
-        if(powerState)
+        if(powerState){
             changePowerState();
             ui->blackScreen->setText("");
+        }
     }else if(battery < 2){
         if(powerState){
             changePowerState();
@@ -301,7 +303,7 @@ void MainWindow::updateBattery(float change){
 
 
 void MainWindow::updateTimer(){
-    if(therapies[therapies.size()-1]->getPower()>14){
+    if(therapies[therapies.size()-1]->getCurrent()>14){
         changePowerState();
         disableButtons(true);
         ui->powerButton->setDisabled(true);

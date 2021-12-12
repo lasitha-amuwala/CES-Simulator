@@ -8,9 +8,11 @@ class Menu
 public:
     Menu(QString="", QStringList={}, int=0);
     ~Menu();
+
     QStringList getMenuItems();
     QString getName();
     int getSelectedRow();
+
     void setSelectedRow(int);
 
 private:

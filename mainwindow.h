@@ -45,7 +45,7 @@ private:
 
     int timeTraker;     //Time tracker counter
     float battery;       //Battery level
-    int power;             // Power of the therapies
+    int current;             // Power of the therapies
     int deviceIdle=1800;  // Checking for device being Idle - 30 minutes
     int electrodesIdle=5;  // Checking for electrodes being Idle - 5 seconds
     int deviceIdletmp;  // Temporary - Checking for device being Idle - 30 minutes
