@@ -1,13 +1,12 @@
 Team Number: 35 
-
+=================================
 Team Members
  - Ade Banjo
  - Owen Brouse
  - Samarjit Bhullar
  - Lasitha Amuwala
-
+=================================
 Who did what in the project
-
  - Lasitha Amuwala
     - Menu System
       - Menu class, (Menu.cpp, Menu.h)
@@ -30,8 +29,10 @@ Who did what in the project
 
  - Samarjit Bhullar
 
+=================================
 File Organization:
 
+=================================
 Tested Scenarios 
 
 What works:
