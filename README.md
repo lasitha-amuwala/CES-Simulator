@@ -1,11 +1,14 @@
 Team Number: 35 
 =================================
+
 Team Members
  - Ade Banjo
  - Owen Brouse
  - Samarjit Bhullar
  - Lasitha Amuwala
+
 =================================
+
 Who did what in the project
  - Lasitha Amuwala
     - Menu System
@@ -30,9 +33,11 @@ Who did what in the project
  - Samarjit Bhullar
 
 =================================
+
 File Organization:
 
 =================================
+
 Tested Scenarios 
 
 What works:
