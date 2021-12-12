@@ -34,10 +34,12 @@ private:
     bool powerState;    //Indicator to track Power ON/OFF of the device
     bool resetIdle=false;  //Indicator to track if device is in idle state
     bool resetElectrodes=false; //Indicator to track if electrodes is in idle state
+    bool autoshutdown=false; //Indicator to track if auto shutdown is pressed
     QVector<Therapy*> therapies; // List of therapies
     QTimer* timer;   // Main Therapy Timer
     QTimer* idle_timer;  // Checking for device being Idle
     QTimer* electrodes_timer;  // Checking for electrodes being Idle
+    QTimer* autoshutdown_timer;  // Testing AutoShutdown for device
 
     float frequency;
     QString waveform;
@@ -50,6 +52,8 @@ private:
     int electrodesIdle=5;  // Checking for electrodes being Idle - 5 seconds
     int deviceIdletmp;  // Temporary - Checking for device being Idle - 30 minutes
     int electrodesIdletmp;  // Temporary - Checking for electrodes being Idle - 5 seconds
+    int autoshutdowntimer=30;  // Testing auto shutdown timer - 30 sec
+    int autoshutdowntimertmp;  // Temporary Testing auto shutdown timer
 
     void drawMenu(Menu&);     //Method to draw the main layout of the Device
     void disableButtons(bool); //Method to disable and enable all the buttons on the device - use mainly when Power ON/OFF
@@ -71,5 +75,8 @@ private slots:
     void forceCurrent(int);   //Method to track the Current Level
     void updateIdleCountdown();   //Method to track the countdown of device being idle
     void updateElectrodesIdleCountdown();  //Method to track the countdown of electrodes being idle
+    void autoShutdownCountdown();  //Method to track the countdown for auto Shutdown testing
+    void autoShutdown_test();  //Method to test auto Shutdown
+
 };
 #endif // MAINWINDOW_H
