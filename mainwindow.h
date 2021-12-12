@@ -43,7 +43,7 @@ private:
     QString waveform;
     int countdown;
 
-    int timeTraker;     //Time tracker counter
+    int timeTracker;     //Time tracker counter
     float battery;       //Battery level
     int current;             // Power of the therapies
     int deviceIdle=1800;  // Checking for device being Idle - 30 minutes

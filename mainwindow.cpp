@@ -71,6 +71,55 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//##########################################################################################################################################
+//####################                                                                                                  ####################
+//####################                                           UI Buttons                                             ####################
+//####################                                                                                                  ####################
+//##########################################################################################################################################
+
+
+void MainWindow::navigateUp(){
+    int currRow = ui->MainMenu->currentRow();
+    int nextRow = (currRow == 0)? ui->MainMenu->count() - 1 : currRow - 1;
+    currentMenu.setSelectedRow(nextRow);
+    ui->MainMenu->setCurrentRow(nextRow);
+    resetIdle = true;
+}
+
+void MainWindow::navigateDown(){
+    int currRow = ui->MainMenu->currentRow();
+    int nextRow = (currRow + 1 == ui->MainMenu->count())? 0 : currRow + 1;
+    ui->MainMenu->setCurrentRow(nextRow);
+    currentMenu.setSelectedRow(nextRow);
+    resetIdle = true;
+}
+
+//plus button
+void MainWindow::increaseCurrent(){
+   if(current == 10) return;
+    current += 1;
+    therapies[therapies.size()-1]->setCurrent(current);
+    displayOptions();
+    resetIdle = true;
+}
+
+//minus button
+void MainWindow::decreaseCurrent(){
+    current = (current <= 2)? 1 : current - 2;
+    therapies[therapies.size()-1]->setCurrent(current);
+    displayOptions();
+    resetIdle = true;
+}
+
+void MainWindow::disableButtons(bool x){
+    ui->upButton->setDisabled(x);
+    ui->downButton->setDisabled(x);
+    ui->homeButton->setDisabled(x);
+    ui->okButton->setDisabled(x);
+    ui->minusButton->setDisabled(x);
+    ui->plusButton->setDisabled(x);
+}
+
 void MainWindow::changePowerState(){
     powerState = !powerState;
     if(powerState){
@@ -88,77 +137,8 @@ void MainWindow::changePowerState(){
     ui->displayWidget->setVisible(powerState);
 }
 
-void MainWindow::disableButtons(bool x){
-    ui->upButton->setDisabled(x);
-    ui->downButton->setDisabled(x);
-    ui->homeButton->setDisabled(x);
-    ui->okButton->setDisabled(x);
-    ui->minusButton->setDisabled(x);
-    ui->plusButton->setDisabled(x);
-}
-
-void MainWindow::navigateDown(){
-    int currRow = ui->MainMenu->currentRow();
-    int nextRow = (currRow + 1 == ui->MainMenu->count())? 0 : currRow + 1;
-    ui->MainMenu->setCurrentRow(nextRow);
-    currentMenu.setSelectedRow(nextRow);
-    resetIdle = true;
-}
-
-void MainWindow::navigateUp(){
-    int currRow = ui->MainMenu->currentRow();
-    int nextRow = (currRow == 0)? ui->MainMenu->count() - 1 : currRow - 1;
-    currentMenu.setSelectedRow(nextRow);
-    ui->MainMenu->setCurrentRow(nextRow);
-    resetIdle = true;
-}
-
-void MainWindow::increaseCurrent(){
-   if(current == 10) return;
-    current += 1;
-    therapies[therapies.size()-1]->setCurrent(current);
-    displayOptions();
-    resetIdle = true;
-}
-
-void MainWindow::decreaseCurrent(){
-    current = (current <= 2)? 1 : current - 2;
-    therapies[therapies.size()-1]->setCurrent(current);
-    displayOptions();
-    resetIdle = true;
-}
-
-void MainWindow::toggleElectrodes(){
-    skinContact = !skinContact;
-    ui->electrodes->setChecked(skinContact);
-    ui->toggleElectrodes_2->setStyleSheet(skinContact? "background-color:#FFA626;" : "");
-    if(!skinContact) {
-        updateIdleCountdown();
-        updateElectrodesIdleCountdown();
-    }
-    resetIdle = true;
-}
-
-void MainWindow::drawMenu(Menu &menu){
-    ui->MainMenu->clear();
-    ui->MainMenu->addItems(menu.getMenuItems());
-    ui->MainMenu->setCurrentRow(menu.getSelectedRow());
-    ui->menuLabel->setText(menu.getName());
-    currentMenu = menu;
-    displayOptions();
-    resetIdle = true;
-}
-
-void MainWindow::displayOptions(){
-    ui->battery->setValue(battery);
-    ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
-    ui->waveformLabel->setText(waveform);
-    ui->countdownLabel->setText(QString::number(countdown) + " mins");
-    ui->powerLevelBar->setValue(current * 50);
-    ui->setCurrent->setValue(current * 50);
-}
-
 void MainWindow::goHome(){
+    shutdownTherapy();
     drawMenu(mainMenu);
     resetIdle = true;
 }
@@ -172,21 +152,13 @@ void MainWindow::okButton(){
         else if (selectedRow == 1){ drawMenu(waveformMenu);}
         else if (selectedRow == 2){ drawMenu(countdownCycleMenu);}
         else if (selectedRow == 3){ drawMenu(therapyMenu);
-            timeTraker = therapies[therapies.size()-1]->getTime()*60;
+            timeTracker = therapies[therapies.size()-1]->getTime()*60;
             timer->start(1000);
             updateTimer();
             therapies[therapies.size()-1]->setStart(QDateTime::currentDateTime());
-            ui->homeButton->setDisabled(true);
         }  else if (selectedRow == 4){
             QStringList oldTherapy = {"Go Back"};
             foreach (Therapy* therapy,therapies) {
-                qDebug() << therapy->getFrequency();
-                qDebug() << therapy->getWaveform();
-                qDebug() << therapy->getStart().date().toString();
-                qDebug() << therapy->getCurrent();
-                qDebug() << therapy->getTime();
-                qDebug() << "\n";
-
                 oldTherapy << therapy->getStart().date().toString() +
                               "\n - Waveform: " + therapy->getWaveform() +
                               "\n - Countdown: " + QString::number(therapy->getTime()) + " mins" +
@@ -200,7 +172,6 @@ void MainWindow::okButton(){
 
     } else if (menu == MENUS[1]){
          frequency = FREQUENCIES[selectedRow];
-         qDebug() << "HUH" +QString::number(frequency);
          therapies[therapies.size()-1]->setFrequency(frequency);
          drawMenu(mainMenu);
 
@@ -233,65 +204,125 @@ void MainWindow::okButton(){
             drawMenu(mainMenu);
         }else{
             therapies[therapies.size()-1] = therapies[selectedRow-1];
+            current = therapies[therapies.size()-1]->getCurrent();
             drawMenu(mainMenu);
         }
     }
 }
-void MainWindow::shutdownTherapy(){
-    ui->timerLabel->setText("");
-    timer->stop();
-    if(saveTherapy){
-        saveTherapy = false;
-        therapies.append(new Therapy(waveform, frequency, countdown, current));
+
+//##########################################################################################################################################
+//####################                                                                                                  ####################
+//####################                                        Admin Buttons                                             ####################
+//####################                                                                                                  ####################
+//##########################################################################################################################################
+
+//vitually atach/detach the electrodes
+void MainWindow::toggleElectrodes(){
+    skinContact = !skinContact;
+    ui->electrodes->setChecked(skinContact);
+    ui->toggleElectrodes_2->setStyleSheet(skinContact? "background-color:#FFA626;" : "");
+    if(!skinContact) {
+        updateIdleCountdown();
+        updateElectrodesIdleCountdown();
     }
+    resetIdle = true;
 }
 
-
+//set the device battery level
 void MainWindow::forceBattery(double target){
-    updateBattery(target-battery);
+    battery = target;
+    updateBattery(0);
 }
 
+//set the deivice current
 void MainWindow::forceCurrent(int target){
     if(target <= 500){
         ui->powerLevelBar->setValue(target);
         current = target/50;
 
-    }else if(target > 700){
+    }else if(target > 700 && powerState){
         changePowerState();
         ui->powerButton->setDisabled(true);
         qDebug() << "[MainWindow]: Device Disabled - CURRENT LIMIT EXCEEDED";
     }
 }
 
+//##########################################################################################################################################
+//####################                                                                                                  ####################
+//####################                                       Back end Functions                                         ####################
+//####################                                                                                                  ####################
+//##########################################################################################################################################
+
+//Draws the selectable menu options
+void MainWindow::drawMenu(Menu &menu){
+    ui->MainMenu->clear();
+    ui->MainMenu->addItems(menu.getMenuItems());
+    ui->MainMenu->setCurrentRow(menu.getSelectedRow());
+    ui->menuLabel->setText(menu.getName());
+    currentMenu = menu;
+    displayOptions();
+    resetIdle = true;
+}
+
+//Shows general inforamtion on the device status
+void MainWindow::displayOptions(){
+    ui->battery->setValue(battery);
+    ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
+    ui->waveformLabel->setText(waveform);
+    ui->countdownLabel->setText(QString::number(countdown) + " mins");
+    ui->powerLevelBar->setValue(current * 50);
+    ui->setCurrent->setValue(current * 50);
+}
+
+//Cleans up after a therapy ends
+void MainWindow::shutdownTherapy(){
+    ui->timerLabel->setText("");
+    timer->stop();
+    timeTracker = 0;
+    if(saveTherapy){
+        saveTherapy = false;
+        therapies.append(new Therapy(waveform, frequency, countdown, current));
+    }
+}
+
+//##########################################################################################################################################
+//####################                                                                                                  ####################
+//####################                                       Update Functions                                           ####################
+//####################                                                                                                  ####################
+//##########################################################################################################################################
+
+//Changes the stored battery value
 void MainWindow::updateBattery(float change){
-    battery += change;
+    if(skinContact) battery += change;
     if(battery<0)battery=0;
     if(battery>100)battery=100;
 
     ui->battery->setValue(battery);
 	ui->setBattery->setValue(battery);
 
-    if(battery < 1){
-        if(powerState){
-            changePowerState();
-            ui->blackScreen->setText("");
-        }
-    }else if(battery < 2){
+    if(battery <= 0){
+        if(powerState) changePowerState();
+        ui->blackScreen->setText("");
+    }else if(battery <= 1){
         if(powerState){
             changePowerState();
             ui->blackScreen->setText("Shutting Down...");
         }
-    }else if(battery < 5) {
+    }else if(battery <= 2){
+        ui->blackScreen->setText("");
+        ui->batteryWarning->setText("Shutting Down...");
+    }else if(battery <= 5) {
         ui->blackScreen->setText("");
         ui->batteryWarning->setText("Low Battery");
          qDebug() << "[MainWindow]: Device Shutdown - Low Battery ";
-    }else{
+    }
+    else if(change>=0){
         ui->batteryWarning->setText("");
         ui->blackScreen->setText("");
     }
 }
 
-
+//Displays time left on an active therapy
 void MainWindow::updateTimer(){
     if(therapies[therapies.size()-1]->getCurrent()>14){
         changePowerState();
@@ -299,9 +330,9 @@ void MainWindow::updateTimer(){
         ui->powerButton->setDisabled(true);
     }
 
-    ui->timerLabel->setText(QString::number(timeTraker/60)+":"+QStringLiteral("%1").arg(timeTraker%60,2,10,QLatin1Char('0')));
-    if(skinContact)   timeTraker -= 1;
-    if(timeTraker<=0){shutdownTherapy();}
+    ui->timerLabel->setText(QString::number(timeTracker/60)+":"+QStringLiteral("%1").arg(timeTracker%60,2,10,QLatin1Char('0')));
+    if(skinContact)   timeTracker -= 1;
+    if(timeTracker<=0){shutdownTherapy();}
 
     updateBattery(-0.007);
 }
@@ -309,6 +340,7 @@ void MainWindow::updateTimer(){
 // Method to check Idle Device
 void MainWindow::updateIdleCountdown()
 {
+    updateBattery(0);
     if(resetIdle){
         idle_timer->stop();
         deviceIdletmp=deviceIdle;
@@ -317,11 +349,13 @@ void MainWindow::updateIdleCountdown()
     idle_timer->start(1000);
     ui->deviceIdle->setText(QString::number(deviceIdletmp/60)+":"+QStringLiteral("%1").arg(deviceIdletmp%60,2,10,QLatin1Char('0')));
     if(skinContact) {
+        ui->batteryWarning->setText("");
         deviceIdletmp=deviceIdle;
         idle_timer->stop();
     } else {
         deviceIdletmp -= 1;
         if(deviceIdletmp<1){
+            ui->batteryWarning->setText("");
             changePowerState();
             deviceIdletmp=deviceIdle;
             idle_timer->stop();
@@ -331,8 +365,6 @@ void MainWindow::updateIdleCountdown()
             ui->batteryWarning->setText("Shutting down");
         }else if(deviceIdletmp<=5){
             ui->batteryWarning->setText("Device Idle");
-        }else{
-            ui->batteryWarning->setText("");
         }
     }
 
@@ -341,30 +373,33 @@ void MainWindow::updateIdleCountdown()
 // Method to check Idle Electrodes
 void MainWindow::updateElectrodesIdleCountdown()
 {
-   //;
+    updateBattery(0);
     if(resetElectrodes){
         electrodes_timer->stop();
         electrodesIdle=5;
         resetElectrodes = false;
     }
     electrodes_timer->start(1000);
-    ui->electrodesIdle->setText(QString::number(electrodesIdle/60)+":"+QStringLiteral("%1").arg(electrodesIdle%60,2,10,QLatin1Char('0')));
-    if(skinContact) {
-        electrodesIdle=5;
-        electrodes_timer->stop();
-    } else {
-        electrodesIdle -= 1;
-        if(electrodesIdle<1){
-            shutdownTherapy();
+    if(timeTracker>0 && timeTracker < therapies[therapies.size()-1]->getTime()*60){
+        if(skinContact) {
+            ui->batteryWarning->setText("");
             electrodesIdle=5;
             electrodes_timer->stop();
-            qDebug() << "[MainWindow]: Therapy Shutdown - Idle Electrodes ";
-        }if(electrodesIdle<=3){
-            ui->batteryWarning->setText("Shutting down - Therapy");
-        }else if(electrodesIdle<=5){
-            ui->batteryWarning->setText("Electrodes Idle");
-        }else{
-            ui->batteryWarning->setText("");
+        } else {
+            electrodesIdle -= 1;
+            if(electrodesIdle<=0){
+                ui->batteryWarning->setText("");
+                shutdownTherapy();
+                electrodesIdle=5;
+                electrodes_timer->stop();
+                drawMenu(mainMenu);
+                qDebug() << "[MainWindow]: Therapy Shutdown - Idle Electrodes ";
+            }else if(electrodesIdle<=3){
+                ui->batteryWarning->setText("Shutting down - Therapy");
+            }else if(electrodesIdle<=5){
+                ui->batteryWarning->setText("Electrodes Idle");
+            }
         }
+        ui->electrodesIdle->setText(QString::number(electrodesIdle/60)+":"+QStringLiteral("%1").arg(electrodesIdle%60,2,10,QLatin1Char('0')));
     }
 }
