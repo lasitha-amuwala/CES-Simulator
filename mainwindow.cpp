@@ -115,27 +115,15 @@ void MainWindow::navigateUp(){
 
 void MainWindow::increaseCurrent(){
    if(current == 10) return;
-
     current += 1;
-    int microampere = current * 50;
-
     therapies[therapies.size()-1]->setCurrent(current);
-    ui->powerLevelBar->setValue(microampere);
-    ui->setCurrent->setValue(microampere);
-
     displayOptions();
     resetIdle = true;
 }
 
 void MainWindow::decreaseCurrent(){
     current = (current <= 2)? 1 : current - 2;
-
-    int microampere = current * 50;
-
     therapies[therapies.size()-1]->setCurrent(current);
-    ui->powerLevelBar->setValue(microampere);
-    ui->setCurrent->setValue(microampere);
-
     displayOptions();
     resetIdle = true;
 }
@@ -166,6 +154,8 @@ void MainWindow::displayOptions(){
     ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
     ui->waveformLabel->setText(waveform);
     ui->countdownLabel->setText(QString::number(countdown) + " mins");
+    ui->powerLevelBar->setValue(current * 50);
+    ui->setCurrent->setValue(current * 50);
 }
 
 void MainWindow::goHome(){
@@ -325,7 +315,7 @@ void MainWindow::updateIdleCountdown()
         resetIdle = false;
     }
     idle_timer->start(1000);
-    //ui->deviceIdle->setText(QString::number(deviceIdletmp/60)+":"+QStringLiteral("%1").arg(deviceIdletmp%60,2,10,QLatin1Char('0')));
+    ui->deviceIdle->setText(QString::number(deviceIdletmp/60)+":"+QStringLiteral("%1").arg(deviceIdletmp%60,2,10,QLatin1Char('0')));
     if(skinContact) {
         deviceIdletmp=deviceIdle;
         idle_timer->stop();
@@ -336,7 +326,8 @@ void MainWindow::updateIdleCountdown()
             deviceIdletmp=deviceIdle;
             idle_timer->stop();
             qDebug() << "[MainWindow]: Device Shutdown - Idle Device ";
-        }if(deviceIdletmp<=3){
+        }
+        if(deviceIdletmp<=3){
             ui->batteryWarning->setText("Shutting down");
         }else if(deviceIdletmp<=5){
             ui->batteryWarning->setText("Device Idle");
@@ -357,7 +348,7 @@ void MainWindow::updateElectrodesIdleCountdown()
         resetElectrodes = false;
     }
     electrodes_timer->start(1000);
-    //ui->electrodesIdle->setText(QString::number(electrodesIdle/60)+":"+QStringLiteral("%1").arg(electrodesIdle%60,2,10,QLatin1Char('0')));
+    ui->electrodesIdle->setText(QString::number(electrodesIdle/60)+":"+QStringLiteral("%1").arg(electrodesIdle%60,2,10,QLatin1Char('0')));
     if(skinContact) {
         electrodesIdle=5;
         electrodes_timer->stop();
