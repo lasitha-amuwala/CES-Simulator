@@ -95,7 +95,6 @@ void MainWindow::disableButtons(bool x){
     ui->okButton->setDisabled(x);
     ui->minusButton->setDisabled(x);
     ui->plusButton->setDisabled(x);
-    ui->lockButtton->setDisabled(x);
 }
 
 void MainWindow::navigateDown(){

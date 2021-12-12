@@ -27,29 +27,6 @@
       <height>591</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="lockButtton">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>270</y>
-       <width>50</width>
-       <height>50</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-image: url(:/resources/LockButton.svg);
-border-radius:25px;
-}
-
-QPushButton:pressed {
-	background-color: #00D100;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QPushButton" name="okButton">
      <property name="geometry">
       <rect>
@@ -145,8 +122,8 @@ QPushButton:pressed {
     <widget class="QPushButton" name="homeButton">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>450</y>
+       <x>230</x>
+       <y>270</y>
        <width>50</width>
        <height>50</height>
       </rect>
@@ -469,7 +446,6 @@ color:#fff</string>
     <zorder>blackScreen</zorder>
     <zorder>displayWidget</zorder>
     <zorder>graphicsView</zorder>
-    <zorder>lockButtton</zorder>
     <zorder>okButton</zorder>
     <zorder>downButton</zorder>
     <zorder>plusButton</zorder>
