@@ -38,6 +38,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(electrodes_timer, SIGNAL(timeout()), this, SLOT(updateElectrodesIdleCountdown()));
     electrodes_timer->setSingleShot(true);
 
+    //auto shutdown testing timer
+    this->autoshutdown_timer = new QTimer(this);
+    connect(autoshutdown_timer, SIGNAL(timeout()), this, SLOT(autoShutdownCountdown()));
+    autoshutdown_timer->setSingleShot(true);
+
     QStringList timeMenu;
     QStringList freqMenu;
     foreach (int time, COUNTDOWN_CYCLES) {timeMenu<< QString::number(time) + " mins";}
@@ -58,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->minusButton, SIGNAL(pressed()), this, SLOT(decreaseCurrent()));
     connect(ui->toggleElectrodes, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
     connect(ui->toggleElectrodes_2, SIGNAL(pressed()), this, SLOT(toggleElectrodes()));
+    connect(ui->autoShutdown_test, SIGNAL(pressed()), this, SLOT(autoShutdown_test()));
     connect(ui->setBattery, SIGNAL(valueChanged(double)), this, SLOT(forceBattery(double)));
     connect(ui->setCurrent, SIGNAL(valueChanged(int)), this, SLOT(forceCurrent(int)));
     connect(timer, &QTimer::timeout, this, &MainWindow::updateTimer);
@@ -80,6 +86,7 @@ void MainWindow::changePowerState(){
             drawMenu(mainMenu);
             disableButtons(false);
             updateIdleCountdown();
+            autoshutdown = false;
         }
     }else{
         disableButtons(true);
@@ -95,6 +102,7 @@ void MainWindow::disableButtons(bool x){
     ui->okButton->setDisabled(x);
     ui->minusButton->setDisabled(x);
     ui->plusButton->setDisabled(x);
+    ui->autoShutdown_test->setDisabled(x);
 }
 
 void MainWindow::navigateDown(){
@@ -138,6 +146,16 @@ void MainWindow::toggleElectrodes(){
     }
     resetIdle = true;
 }
+
+void MainWindow::autoShutdown_test(){
+    autoshutdown = !autoshutdown;
+    if(autoshutdown) {
+        autoshutdowntimertmp=autoshutdowntimer;
+        autoShutdownCountdown();
+    }
+}
+
+
 
 void MainWindow::drawMenu(Menu &menu){
     ui->MainMenu->clear();
@@ -367,4 +385,34 @@ void MainWindow::updateElectrodesIdleCountdown()
             ui->batteryWarning->setText("");
         }
     }
+}
+
+// Method to test auto shutdown on the Device
+void MainWindow::autoShutdownCountdown()
+{
+    if(!autoshutdown){
+        autoshutdown_timer->stop();
+        autoshutdowntimertmp=autoshutdowntimer;
+        autoshutdown = false;
+    }
+    autoshutdown_timer->start(1000);
+    ui->autoShutdown_timer->setText(QString::number(autoshutdowntimertmp/60)+":"+QStringLiteral("%1").arg(autoshutdowntimertmp%60,2,10,QLatin1Char('0')));
+    if(autoshutdown) {
+        autoshutdowntimertmp -= 1;
+        if(autoshutdowntimertmp<1){
+            changePowerState();
+            deviceIdletmp=deviceIdle;
+            autoshutdown_timer->stop();
+            ui->autoShutdown_timer->setText("");
+            qDebug() << "[MainWindow]: Device Shutdown - Auto Shutdown Test ";
+        }
+        if(autoshutdowntimertmp<=5){
+            ui->batteryWarning->setText("Shutting down");
+        }else if(deviceIdletmp<=10){
+            ui->batteryWarning->setText("Auto Shutdown Test");
+        }else{
+            ui->batteryWarning->setText("");
+        }
+    }
+
 }

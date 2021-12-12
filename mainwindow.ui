@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>671</width>
     <height>645</height>
    </rect>
   </property>
@@ -481,8 +481,8 @@ color:#fff</string>
      <rect>
       <x>330</x>
       <y>20</y>
-      <width>311</width>
-      <height>581</height>
+      <width>331</width>
+      <height>431</height>
      </rect>
     </property>
     <property name="title">
@@ -602,7 +602,7 @@ color:#fff</string>
       <rect>
        <x>20</x>
        <y>250</y>
-       <width>191</width>
+       <width>181</width>
        <height>17</height>
       </rect>
      </property>
@@ -636,9 +636,9 @@ color:#fff</string>
     <widget class="QLabel" name="electrodesIdle">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>200</x>
        <y>220</y>
-       <width>71</width>
+       <width>51</width>
        <height>21</height>
       </rect>
      </property>
@@ -657,9 +657,9 @@ color:#fff</string>
     <widget class="QLabel" name="deviceIdle">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>200</x>
        <y>250</y>
-       <width>71</width>
+       <width>51</width>
        <height>21</height>
       </rect>
      </property>
@@ -675,6 +675,90 @@ color:#fff</string>
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>220</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>seconds</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>250</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>minutes</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>510</y>
+      <width>331</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Testing</string>
+    </property>
+    <widget class="QPushButton" name="autoShutdown_test">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>40</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Auto Shutdown : 30 seconds</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="autoShutdown_timer">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>43</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:1px solid;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>40</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>seconds</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -682,8 +766,8 @@ color:#fff</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
-     <height>22</height>
+     <width>671</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCES_Simulator">
