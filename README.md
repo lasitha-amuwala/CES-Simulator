@@ -17,14 +17,15 @@ Who did what in the project
       - displaying menu on the GUI
       - Getting UP and Down Buttons to work with Menu
       - Getting navigating between different menus to work
-    - GUI design
+    - Power ON/OFF button functionality
+    - Most of the GUI design
       - UI Overlay done on Illustrator
       - All Button Designs done on illustrator
       - Electrodes
       - GUI styling (CSS)
       - Control panel arrangement
     - Traceability Matrix
-  - Sequence Diagrams
+    - Sequence Diagrams
 
  - Ade Banjo
 
