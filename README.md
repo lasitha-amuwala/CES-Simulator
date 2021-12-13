@@ -18,10 +18,12 @@ Who did what in the project
       - Getting UP and Down Buttons to work with Menu
       - Getting navigating between different menus to work
     - Power ON/OFF button functionality
+      - Disabling Buttons when power off
+    - Device Shutdown screen
     - Most of the GUI design
       - UI Overlay done on Illustrator
       - All Button Designs done on illustrator
-      - Electrodes
+      - Electrodes Design
       - GUI styling (CSS)
       - Control panel arrangement
     - Traceability Matrix
