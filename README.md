@@ -7,6 +7,8 @@ Team Members
  - Samarjit Bhullar
  - Lasitha Amuwala
 
+GITHUB: https://github.com/lasitha-amuwala/CES-Simulator/
+
 =================================
 
 Who did what in the project
@@ -26,6 +28,11 @@ Who did what in the project
       - Electrodes Design
       - GUI styling (CSS)
       - Control panel arrangement
+      - added device autoshutdown timer to ui
+      - added Current level bar on ui and functionality
+      - added battery level bar on ui and functionality
+    - Auto shutdown and disable when current exceeds 700uA logic
+      - increasing current by 50, decreasing current by 100 
     - Traceability Matrix
     - Sequence Diagrams
 
