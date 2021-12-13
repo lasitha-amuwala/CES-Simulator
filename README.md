@@ -29,6 +29,9 @@ Who did what in the project
  - Ade Banjo
 
  - Owen Brouse
+   - Use Cases Diagrams
+   - GUI design
+   - Systems Coding
 
  - Samarjit Bhullar
 
