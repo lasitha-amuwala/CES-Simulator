@@ -1,4 +1,4 @@
-Team Number: 35 
+Team Number: 35
 =================================
 
 Team Members
@@ -37,17 +37,26 @@ Who did what in the project
    - Systems Coding
 
  - Samarjit Bhullar
+     - Class Diagram (updated several times based on design and functionality changes)
+     - Device Idle Design and functionality (30 minutes)
+     - Electrodes Idle Design functionality (5 seconds)
+     - Device Shutdown Test Design and functionality (30 seconds)
+     - Added Main Window Title and Icon
+     - Code Documentation
+     - Fixed Battery Drain down bug
+     - Test Cases and Documentation (updated several times based on design and functionality changes)
+     - Run Test Cases
 
 =================================
 
 File Organization:
- /resourses  -  all button images, device overlay image
- /DesignDocumentation   -   UML Diagrams, Sequence Diagrams, Tracibility Matrix, Use Cases
+ /resources  -  all button images, device overlay image, application icon
+ /DesignDocumentation   -   UML Diagrams, Sequence Diagrams, Traceability Matrix, Use Cases
  /CES-Simulator   -   source Code
 
 =================================
 
-Tested Scenarios 
+Tested Scenarios
 
 What works:
 - Battery Low warning and shutdown
@@ -58,6 +67,7 @@ What works:
 - Changing Frequencies, Wave forms, Countdown cycles
 - increasing / decreasing current level
 - 30 min auto shutdown when system is inactive
+- 30 seconds auto shutdown test (to be used during demo)
 - Therapy starts when electrodes are connected, timer displays
 - Battery drain
 - Therapy recording
