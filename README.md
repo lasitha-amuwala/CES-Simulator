@@ -7,6 +7,8 @@ Team Members
  - Samarjit Bhullar
  - Lasitha Amuwala
 
+GITHUB: https://github.com/lasitha-amuwala/CES-Simulator/
+
 =================================
 
 Who did what in the project
