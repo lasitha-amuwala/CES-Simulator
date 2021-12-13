@@ -33,6 +33,7 @@ Who did what in the project
       - added battery level bar on ui and functionality
     - Auto shutdown and disable when current exceeds 700uA logic
       - increasing current by 50, decreasing current by 100 
+    - destructured pointers
     - Traceability Matrix
     - Sequence Diagrams
 
