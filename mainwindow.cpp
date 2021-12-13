@@ -81,6 +81,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete this->autoshutdown_timer;
+    delete this->electrodes_timer;
+    delete this->idle_timer;
+
+    for(int x = 0; x < therapies.length(); x++) {
+        delete therapies[x];
+    }
 }
 
 // toggle power state on and off
