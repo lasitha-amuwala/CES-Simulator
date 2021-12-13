@@ -33,14 +33,28 @@ Who did what in the project
       - added battery level bar on ui and functionality
     - Auto shutdown and disable when current exceeds 700uA logic
       - increasing current by 50, decreasing current by 100 
-    - destructured pointers
     - Traceability Matrix
     - Sequence Diagrams
 
  - Owen Brouse
-   - Use Cases Diagrams
+   - Use Cases Diagram(s)
    - GUI design
+     - History screen
+     - Start Therapy screen
+     - Electrod connected
    - Systems Coding
+     - battery
+     - save therapy
+     - run therapy
+     - therapy time 
+     - therapy ccp and h
+     - load therapy
+     - battery drain 
+     - battery warning
+     - power off low battery
+     - power off too high current
+   - Code Documentation
+   - bug fixes
 
  - Samarjit Bhullar
      - Class Diagram (updated several times based on design and functionality changes)
