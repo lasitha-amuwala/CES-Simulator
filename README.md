@@ -29,8 +29,6 @@ Who did what in the project
     - Traceability Matrix
     - Sequence Diagrams
 
- - Ade Banjo
-
  - Owen Brouse
    - Use Cases Diagrams
    - GUI design
@@ -46,6 +44,8 @@ Who did what in the project
      - Fixed Battery Drain down bug
      - Test Cases and Documentation (updated several times based on design and functionality changes)
      - Run Test Cases
+
+ - Ade Banjo
 
 =================================
 
