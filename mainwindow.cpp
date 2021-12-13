@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete timer;
     delete this->autoshutdown_timer;
     delete this->electrodes_timer;
     delete this->idle_timer;
