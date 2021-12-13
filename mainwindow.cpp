@@ -4,6 +4,8 @@
 #include "menu.h"
 #include <QLCDNumber>
 
+// Define constants
+
 const QStringList MENUS = {"Main Menu", "Frequencies", "Wave Forms", "Countdown Cycles", "Start Therapy", "History"};
 const QList<float> FREQUENCIES = {0.5, 77, 100};
 const QStringList WAVEFORMS = {"Alpha", "Beta", "Gamma"};
@@ -16,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->displayWidget->setVisible(false);
 
     therapies.append(new Therapy());
+
+    // initialize attributes
     powerState = false;
     skinContact = false;
     saveTherapy = false;
@@ -48,12 +52,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     foreach (int time, COUNTDOWN_CYCLES) {timeMenu<< QString::number(time) + " mins";}
     foreach (float freq, FREQUENCIES) {freqMenu<< QString::number(freq) + " Hz";}
 
+    //create Menus
     mainMenu = Menu(MENUS[0], {MENUS[1], MENUS[2], MENUS[3], MENUS[4], MENUS[5]});
     waveformMenu = Menu(MENUS[2], WAVEFORMS);
     frequencyMenu = Menu(MENUS[1], freqMenu);
     countdownCycleMenu = Menu(MENUS[3], timeMenu);
     therapyMenu = Menu(MENUS[4],THERAPY_BUTTONS);
 
+    //connect signals to slots
     connect(ui->powerButton, SIGNAL(clicked()), this, SLOT(changePowerState()));
     connect(ui->downButton, SIGNAL(pressed()), this, SLOT(navigateDown()));
     connect(ui->upButton, SIGNAL(pressed()), this, SLOT(navigateUp()));
@@ -77,8 +83,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// toggle power state on and off
 void MainWindow::changePowerState(){
     powerState = !powerState;
+
+    // when off disable buttons, when on enable buttons and display main menu
     if(powerState){
         if(battery==0){
             powerState = false;
@@ -95,6 +104,7 @@ void MainWindow::changePowerState(){
     ui->displayWidget->setVisible(powerState);
 }
 
+// disable/enable device buttons
 void MainWindow::disableButtons(bool x){
     ui->upButton->setDisabled(x);
     ui->downButton->setDisabled(x);
@@ -105,6 +115,7 @@ void MainWindow::disableButtons(bool x){
     ui->autoShutdown_test->setDisabled(x);
 }
 
+// navigate down the current menu
 void MainWindow::navigateDown(){
     int currRow = ui->MainMenu->currentRow();
     int nextRow = (currRow + 1 == ui->MainMenu->count())? 0 : currRow + 1;
@@ -113,6 +124,7 @@ void MainWindow::navigateDown(){
     resetIdle = true;
 }
 
+// navigate up the current menu
 void MainWindow::navigateUp(){
     int currRow = ui->MainMenu->currentRow();
     int nextRow = (currRow == 0)? ui->MainMenu->count() - 1 : currRow - 1;
@@ -121,6 +133,7 @@ void MainWindow::navigateUp(){
     resetIdle = true;
 }
 
+// handle increasing current wehn plus button is pressed
 void MainWindow::increaseCurrent(){
    if(current == 10) return;
     current += 1;
@@ -129,6 +142,7 @@ void MainWindow::increaseCurrent(){
     resetIdle = true;
 }
 
+// handle decreasing current wehn plus button is pressed
 void MainWindow::decreaseCurrent(){
     current = (current <= 2)? 1 : current - 2;
     therapies[therapies.size()-1]->setCurrent(current);
@@ -136,17 +150,19 @@ void MainWindow::decreaseCurrent(){
     resetIdle = true;
 }
 
+// turn the skin contact indicator on and off
 void MainWindow::toggleElectrodes(){
     skinContact = !skinContact;
     ui->electrodes->setChecked(skinContact);
     ui->toggleElectrodes_2->setStyleSheet(skinContact? "background-color:#FFA626;" : "");
-    if(!skinContact) {
+    if(!skinContact) {  // when skin contact if off update device idle and electorde idle
         updateIdleCountdown();
         updateElectrodesIdleCountdown();
     }
     resetIdle = true;
 }
 
+// testing function for auto shutdown in 30 secs
 void MainWindow::autoShutdown_test(){
     autoshutdown = !autoshutdown;
     if(autoshutdown) {
@@ -156,7 +172,7 @@ void MainWindow::autoShutdown_test(){
 }
 
 
-
+// update the ui with the current menu
 void MainWindow::drawMenu(Menu &menu){
     ui->MainMenu->clear();
     ui->MainMenu->addItems(menu.getMenuItems());
@@ -167,6 +183,7 @@ void MainWindow::drawMenu(Menu &menu){
     resetIdle = true;
 }
 
+// display the current frequency, waveform, countdown, and current levels on the GUI
 void MainWindow::displayOptions(){
     ui->battery->setValue(battery);
     ui->frequencyLabel->setText(QString::number(frequency) + " Hz");
@@ -176,15 +193,21 @@ void MainWindow::displayOptions(){
     ui->setCurrent->setValue(current * 50);
 }
 
+// logic for home button
 void MainWindow::goHome(){
     drawMenu(mainMenu);
     resetIdle = true;
 }
 
+//logic for ok button
 void MainWindow::okButton(){
+
+    // get the current menu and the currently selected item and display its respective output
     QString menu = currentMenu.getName();
     int selectedRow = currentMenu.getSelectedRow();
     resetIdle = true;
+
+    // if Main menu is selected
     if(menu == MENUS[0]){
         if(      selectedRow == 0){ drawMenu(frequencyMenu); }
         else if (selectedRow == 1){ drawMenu(waveformMenu);}
@@ -216,6 +239,7 @@ void MainWindow::okButton(){
             drawMenu(history);
         }
 
+    // if frequency menu is selected
     } else if (menu == MENUS[1]){
          frequency = FREQUENCIES[selectedRow];
          qDebug() << "HUH" +QString::number(frequency);
@@ -224,6 +248,7 @@ void MainWindow::okButton(){
 
         qDebug() << "[MainWindow]: Frequency set to " << FREQUENCIES[selectedRow] << "Hz";
 
+    // if waveform menu is selected
     } else if (menu == MENUS[2]){
         waveform = WAVEFORMS[selectedRow];
         therapies[therapies.size()-1]->setWaveform(waveform);
@@ -231,13 +256,15 @@ void MainWindow::okButton(){
 
         qDebug() << "[MainWindow]: Wave Form set to " << WAVEFORMS[selectedRow];
 
+    // if countdown menu is selected
     } else if (menu == MENUS[3]){
         countdown = COUNTDOWN_CYCLES[selectedRow];
         therapies[therapies.size()-1]->setTime(countdown);
         drawMenu(mainMenu);
 
         qDebug() << "[MainWindow]: Countdown Cycle set to " << COUNTDOWN_CYCLES[selectedRow] << " mins";
-      
+
+    // if start therapy menu is selected
     } else if (menu == MENUS[4]){
         if(selectedRow==0){
             shutdownTherapy();
@@ -246,6 +273,8 @@ void MainWindow::okButton(){
         }else{
             saveTherapy = true;
         }
+
+    // if history menu is selected
     } else if (menu == MENUS[5]){
         if(selectedRow==0){
             drawMenu(mainMenu);
@@ -255,6 +284,8 @@ void MainWindow::okButton(){
         }
     }
 }
+
+// shuts down therapy, stops timer, adds therapy to history
 void MainWindow::shutdownTherapy(){
     ui->timerLabel->setText("");
     timer->stop();
@@ -264,11 +295,12 @@ void MainWindow::shutdownTherapy(){
     }
 }
 
-
+// logic for control panel battery edit
 void MainWindow::forceBattery(double target){
     updateBattery(target-battery);
 }
 
+// logic for control panel current edit
 void MainWindow::forceCurrent(int target){
     if(target <= 500){
         ui->powerLevelBar->setValue(target);
@@ -281,6 +313,7 @@ void MainWindow::forceCurrent(int target){
     }
 }
 
+// set the battery level, handle battery low, and shutdown
 void MainWindow::updateBattery(float change){
     battery += change;
     if(battery<0)battery=0;

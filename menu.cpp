@@ -5,7 +5,7 @@ Menu::Menu(QString n, QStringList mi, int r) : name(n), menuItems(mi), selectedR
 
 Menu::~Menu(){}
 
-QStringList Menu::getMenuItems(){return menuItems; }
-QString Menu::getName(){return name; }
-int Menu::getSelectedRow(){return selectedRow ;}
-void Menu::setSelectedRow(int row){ selectedRow = row; }
+QStringList Menu::getMenuItems(){return menuItems; }  // returns menuItmes
+QString Menu::getName(){return name; } // returns name of menu
+int Menu::getSelectedRow(){return selectedRow ;} // returns currently selected item index of menu
+void Menu::setSelectedRow(int row){ selectedRow = row; } // sets selected item index of menu
