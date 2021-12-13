@@ -41,6 +41,9 @@ Who did what in the project
 =================================
 
 File Organization:
+ /resourses  -  all button images, device overlay image
+ /DesignDocumentation   -   UML Diagrams, Sequence Diagrams, Tracibility Matrix, Use Cases
+ /CES-Simulator   -   source Code
 
 =================================
 
